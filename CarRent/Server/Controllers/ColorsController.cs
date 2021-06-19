@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CarRent.Server.IRepository;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using CarRent.Server.Data;
+using CarRent.Shared.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,36 +16,97 @@ namespace CarRent.Server.Controllers
     [ApiController]
     public class ColorsController : ControllerBase
     {
-        // GET: <ColorsController>
+        private readonly IUnitOfWork _unitOfWork;
+
+        public ColorsController(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
+        // Get: api/Colors
+        // Get: /Colors
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> GetColors()
         {
-            return new string[] { "value1", "value2" };
+            var Colors = await _unitOfWork.Colors.GetAll();
+            return Ok(Colors);
         }
 
-        // GET <ColorsController>/5
+        // GET: /Colors/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> GetColor(int id)
         {
-            return "value";
+            var Color = await _unitOfWork.Colors.Get(q => q.Id == id);
+
+            if (Color == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(Color);
         }
 
-        // POST <ColorsController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT <ColorsController>/5
+        // PUT: api/Colors/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> PutColor(int id, Color color)
         {
+            if (id != color.Id)
+            {
+                return BadRequest();
+            }
+
+            _unitOfWork.Colors.Update(color);
+
+            try
+            {
+                await _unitOfWork.Save(HttpContext);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await ColorExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
 
-        // DELETE <ColorsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        // POST: api/Colours
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<Color>> PostColour(Color color)
         {
+            await _unitOfWork.Colors.Insert(color);
+            await _unitOfWork.Save(HttpContext);
+
+            return CreatedAtAction("GetColor", new { id = color.Id }, color);
+        }
+
+        // DELETE: api/Colours/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteColor(int id)
+        {
+            var color = await _unitOfWork.Colors.Get(q => q.Id == id);
+            if (color == null)
+            {
+                return NotFound();
+            }
+            await _unitOfWork.Colors.Delete(id);
+            await _unitOfWork.Save(HttpContext);
+
+            return NoContent();
+        }
+
+        private async Task<bool> ColorExists(int id)
+        {
+            var color = await _unitOfWork.Colors.Get(q => q.Id == id);
+            return color == null;
         }
     }
 }

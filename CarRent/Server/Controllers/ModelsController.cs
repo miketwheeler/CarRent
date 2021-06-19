@@ -1,5 +1,6 @@
 ﻿using CarRent.Server.IRepository;
 using CarRent.Shared.Domain;
+using CarRent.Server.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
