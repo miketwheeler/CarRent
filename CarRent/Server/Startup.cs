@@ -1,5 +1,7 @@
 using CarRent.Server.Data;
+using CarRent.Server.IRepository;
 using CarRent.Server.Models;
+using CarRent.Server.Repository;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -40,6 +42,8 @@ namespace CarRent.Server
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();
+
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();

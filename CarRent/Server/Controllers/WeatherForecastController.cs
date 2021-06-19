@@ -25,7 +25,7 @@ namespace CarRent.Server.Controllers
         {
             _logger = logger;
         }
-
+        // GET POST PUT DELETE
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
