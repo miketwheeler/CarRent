@@ -13,7 +13,7 @@ using CarRent.Server.IRepository;
 namespace CarRent.Server.Controllers
 {
     //[Authorize]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class MakesController : ControllerBase
     {

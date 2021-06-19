@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace CarRent.Server.Controllers
 {
     //[Authorize]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class VehiclesController : ControllerBase
     {

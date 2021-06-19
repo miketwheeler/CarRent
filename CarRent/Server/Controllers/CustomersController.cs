@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace CarRent.Server.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class CustomersController : ControllerBase
     {

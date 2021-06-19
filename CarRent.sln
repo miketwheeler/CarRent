@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31410.223
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRent.Server", "CarRent\Server\CarRent.Server.csproj", "{0AFAD4CC-7A57-44EE-8AB6-C5ABAEF04B17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRent.Server", "CarRent\Server\CarRent.Server.csproj", "{0AFAD4CC-7A57-44EE-8AB6-C5ABAEF04B17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRent.Client", "CarRent\Client\CarRent.Client.csproj", "{75F009E2-FDA3-44B3-90F5-98CF1C1046BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRent.Client", "CarRent\Client\CarRent.Client.csproj", "{75F009E2-FDA3-44B3-90F5-98CF1C1046BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRent.Shared", "CarRent\Shared\CarRent.Shared.csproj", "{FACDA241-5D98-4A02-8D09-53A59AB511D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRent.Shared", "CarRent\Shared\CarRent.Shared.csproj", "{FACDA241-5D98-4A02-8D09-53A59AB511D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
