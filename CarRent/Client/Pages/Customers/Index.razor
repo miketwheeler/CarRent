@@ -1,11 +1,17 @@
 ﻿@page "/customers/"
-@using CarRent.Client.Static
+
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
 
 <h3 class="card-title">Customers</h3>
 <hr />
+<br />
+<a href="/customers/create" class="btn btn-secondary">
+    Create New Customer    
+    <span class="oi oi-plus"></span>
+</a>
+<br />
 <br />
 
 @if(Customers == null)

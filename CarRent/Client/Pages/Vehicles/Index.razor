@@ -1,5 +1,5 @@
 ﻿@page "/vehicles/"
-@using CarRent.Client.Static
+
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
@@ -8,9 +8,16 @@
 <hr />
 <br />
 
+<a href="/vehicles/create" class="btn btn-secondary">
+    Create New Vehicle    
+    <span class="oi oi-plus"></span>
+</a>
+<br />
+<br />
+
 @if(Vehicles == null)
 {
-    <div class=""alert alert-info">Loading ...</div>
+    <div class=""alert alert-info">Loading Vehicles...</div>
 }
 else
 {

@@ -1,11 +1,17 @@
 ﻿@page "/makes/"
-@using CarRent.Client.Static
+
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
 
 <h3 class="card-title">Car Makes</h3>
 <hr />
+<br />
+<a href="/makes/create" class="btn btn-secondary">
+    Create New Make    
+    <span class="oi oi-plus"></span>
+</a>
+<br />
 <br />
 
 @if(Makes == null)

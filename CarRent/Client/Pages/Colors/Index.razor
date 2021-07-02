@@ -1,11 +1,18 @@
 ﻿@page "/colors/"
-@using CarRent.Client.Static
+
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
 
+
 <h3 class="card-title">Colors</h3>
 <hr />
+<br />
+<a href="/colors/create" class="btn btn-secondary">
+    Create New Color    
+    <span class="oi oi-plus"></span>
+</a>
+<br />
 <br />
 
 @if(Colors == null)
