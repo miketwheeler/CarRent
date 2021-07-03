@@ -1,23 +1,24 @@
-﻿<!-- MAKE: Dynamic form for the edit and create pages -->
+﻿<!-- Color: Dynamic component for edit and create -->
 
-<EditForm Model="@make" OnValidSubmit="@OnValidSubmit">
-    <DataAnnotationsValidator />
+<EditForm Model="@color" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator/>
     <ValidationSummary />
 
     <div class="form-group">
         <label>Name: </label>
         <div>
-            <InputText @bind-Value="@make.Name" class="form-control" />
-            <ValidationMessage For="@(() => make.Name)" />
+            <InputText @bind-Value="@color.Name" class="form-control" />
+            <ValidationMessage For="@(() => color.Name)" />
         </div>
     </div>
     <button type="submit" class="btn btn-success btn-block">
         @ButtonText
     </button>
+
 </EditForm>
 
 @code {
-    [Parameter] public Make make { get; set; }
+    [Parameter] public Color color { get; set; }
     [Parameter] public string ButtonText { get; set; } = "Save";
     [Parameter] public EventCallback OnValidSubmit { get; set; }
     

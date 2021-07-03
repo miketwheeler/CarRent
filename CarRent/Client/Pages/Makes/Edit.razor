@@ -18,7 +18,7 @@
 
     async Task EditMake()
     {
-        await _client.PutAsJsonAsync(Endpoints.MakesEndpoint, make);
+        await _client.PutAsJsonAsync($"{Endpoints.MakesEndpoint}/{id}", make);
         _navManager.NavigateTo("/makes/");
     }
 }
