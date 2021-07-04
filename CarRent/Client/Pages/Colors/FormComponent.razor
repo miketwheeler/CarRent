@@ -14,12 +14,11 @@
     <button type="submit" class="btn btn-success btn-block">
         @ButtonText
     </button>
-
+    <BackToList Target="colors" />
 </EditForm>
 
 @code {
     [Parameter] public Color color { get; set; }
     [Parameter] public string ButtonText { get; set; } = "Save";
     [Parameter] public EventCallback OnValidSubmit { get; set; }
-    
 }
