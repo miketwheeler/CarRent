@@ -4,8 +4,7 @@
 @inject IJSRuntime js
 @attribute [Authorize]
 
-<h3 class="card-title">Vehicles</h3>
-<hr />
+<HeadingComponent Text="Vehicles" />
 <br />
 
 <a href="/vehicles/create" class="btn btn-secondary">
@@ -26,7 +25,10 @@ else
             <tr>
                 <th>Make</th>
                 <th>Model</th>
+                <th>Color</th>
                 <th>Year</th>
+                <th>Plate No.</th>
+                <th>VIN</th>
                 <th>Daily Rate</th>
                 <th>Actions</th>
             </tr>
@@ -37,7 +39,10 @@ else
                 <tr>
                     <td>@vehicle.Make.Name</td>
                     <td>@vehicle.Model.Name</td>
+                    <td>@vehicle.Color.Name</td>
                     <td>@vehicle.Year</td>
+                    <td>@vehicle.LicensePlateNumber</td>
+                    <td>@vehicle.Vin</td>
                     <td>@vehicle.RentalRate</td>
                     <td>
                         <a href="/vehicles/view/@vehicle.Id" class="btn btn-primary">

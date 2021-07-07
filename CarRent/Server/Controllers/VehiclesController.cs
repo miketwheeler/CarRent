@@ -39,7 +39,7 @@ namespace CarRent.Server.Controllers
         public async Task<IActionResult> GetVehicle(int id)
         {
             var includes = new List<string> { "Make", "Model", "Color", "Bookings" };
-            var vehicle = await _unitOfWork.Vehicles.Get(q => q.Id == id, includes);
+            var vehicle = await _unitOfWork.Vehicles.Get(q => q.Id == id); // , includes
 
             if (vehicle == null)
             {
