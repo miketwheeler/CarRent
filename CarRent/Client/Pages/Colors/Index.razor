@@ -1,7 +1,10 @@
 ﻿@page "/colors/"
+@using CarRent.Client.Services
 
 @inject HttpClient _client
 @inject IJSRuntime js
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 @attribute [Authorize]
 
 
@@ -56,6 +59,7 @@ else
 
     protected async override Task OnInitializedAsync()
     {
+        _interceptor.MonitorEvent();
         Colors = await _client.GetFromJsonAsync<List<Color>>($"{Endpoints.ColorsEndpoint}");
     }
 
@@ -68,5 +72,10 @@ else
             await _client.DeleteAsync($"{Endpoints.ColorsEndpoint}/{colorId}");
             await OnInitializedAsync();    
         }
+    }
+
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
     }
 }
