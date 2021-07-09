@@ -2,6 +2,8 @@
 
 @inject HttpClient _client
 @inject NavigationManager _navManager
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 
 
 <h3 class="card-title">Create New Customer</h3>
@@ -12,15 +14,16 @@
 
 @code {
     Customer customer = new Customer();
-    
-    //protected async override Task OnInitializedAsync()
-    //{
-        
-    //}
 
     private async Task CreateCustomer()
     {
+        _interceptor.MonitorEvent();
         await _client.PostAsJsonAsync(Endpoints.CustomersEndpoint, customer);
         _navManager.NavigateTo("/customers/");
+    }
+
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
     }
 }

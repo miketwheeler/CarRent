@@ -2,6 +2,8 @@
 
 @inject HttpClient _client
 @inject NavigationManager _navManager
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 
 
 <h3 class="card-title">Create New Make</h3>
@@ -13,13 +15,15 @@
 @code {
     Make make = new Make();
     
-    //protected async override Task OnInitializedAsync()
-    //{
-        
-    //}
     private async Task CreateMake()
     {
+        _interceptor.MonitorEvent();
         await _client.PostAsJsonAsync(Endpoints.MakesEndpoint, make);
         _navManager.NavigateTo("/makes/");
+    }
+
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
     }
 }

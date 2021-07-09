@@ -48,7 +48,7 @@ namespace CarRent.Client.Services
                         message = "Something went wrong, please contact Administrator.";
                         break;
                 }
-                throw new Exception(message);
+                //throw new Exception(message);
             }
         }
         public void DisposeEvent() => _interceptor.AfterSend -= InterceptResponse;

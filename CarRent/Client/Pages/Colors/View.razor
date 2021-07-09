@@ -1,7 +1,9 @@
 ﻿@page "/colors/view/{id:int}"
 
 @inject HttpClient _client
+@inject HttpInterceptorService _interceptor
 @inject NavigationManager _navManager
+@implements IDisposable
 
 <h3>View</h3>
 
@@ -14,5 +16,10 @@
     protected async override Task OnParametersSetAsync()
     {
         color = await _client.GetFromJsonAsync<Color>($"{Endpoints.ColorsEndpoint}/{id}");
+    }
+
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
     }
 }
