@@ -1,13 +1,14 @@
-﻿using CarRent.Server.IRepository;
-using CarRent.Shared.Domain;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Http;
-using CarRent.Server.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using CarRent.Server.Data;
+using CarRent.Shared.Domain;
+using CarRent.Server.IRepository;
+using Microsoft.AspNetCore.Hosting;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,10 +20,19 @@ namespace CarRent.Server.Controllers
     public class VehiclesController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public VehiclesController(IUnitOfWork unitOfWork)
+        public VehiclesController(
+            IUnitOfWork unitOfWork,
+            IWebHostEnvironment webHostEnvironment,
+            IHttpContextAccessor httpContextAccessor
+            )
         {
             _unitOfWork = unitOfWork;
+            this._webHostEnvironment = webHostEnvironment;
+            this._httpContextAccessor = httpContextAccessor;
+
         }
 
         // GET: /Vehicles
@@ -59,6 +69,11 @@ namespace CarRent.Server.Controllers
                 return BadRequest();
             }
 
+            if(vehicle.Image != null)
+            {
+                vehicle.ImageName = CreateFile(vehicle.Image, vehicle.ImageName);
+            }
+
             _unitOfWork.Vehicles.Update(vehicle);
 
             try
@@ -85,6 +100,11 @@ namespace CarRent.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Vehicle>> PostVehicle(Vehicle vehicle)
         {
+            if(vehicle.Image != null)
+            {
+                vehicle.ImageName = CreateFile(vehicle.Image, vehicle.ImageName);
+            }
+
             await _unitOfWork.Vehicles.Insert(vehicle);
             await _unitOfWork.Save(HttpContext);
 
@@ -107,11 +127,19 @@ namespace CarRent.Server.Controllers
 
             return NoContent();
         }
+        private string CreateFile(byte[] image, string name)
+        {
+            var url = _httpContextAccessor.HttpContext.Request.Host.Value;
+            var path = $"{_webHostEnvironment.WebRootPath}\\uploads\\{name}";
+            var fileStream = System.IO.File.Create(path);
+            fileStream.Write(image, 0, image.Length);
+            fileStream.Close();
+            return $"https://{url}/uploads/{name}";
+        }
 
         private async Task<bool> VehicleExists(int id)
         {
             var vehicle = await _unitOfWork.Vehicles.Get(q => q.Id == id);
-
             return vehicle == null;
         }
     }

@@ -22,9 +22,10 @@
 }
 else
 {
-    <table class="table">
+    <table class="table" id="vehiclesTable">
         <thead>
             <tr>
+                <th></th>
                 <th>Make</th>
                 <th>Model</th>
                 <th>Color</th>
@@ -39,6 +40,7 @@ else
             @foreach(var vehicle in Vehicles)
             {
                 <tr>
+                    <td><img src="@vehicle.ImageName" style="height: 150px; width: 150px" /></td>
                     <td>@vehicle.Make.Name</td>
                     <td>@vehicle.Model.Name</td>
                     <td>@vehicle.Color.Name</td>
@@ -71,6 +73,16 @@ else
     {
         _interceptor.MonitorEvent();
         Vehicles = await _client.GetFromJsonAsync<List<Vehicle>>($"{Endpoints.VehiclesEndpoint}");
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await js.InvokeVoidAsync("AddDataTable", "#vehiclesTable");
+    }
+
+    void IDisposable.Dispose()
+    {
+        js.InvokeVoidAsync("DataTableDispose", "#vehiclesTable");        
     }
 
     async Task Delete(int vehicleId)

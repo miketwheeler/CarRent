@@ -23,7 +23,7 @@
 }
 else
 {
-    <table class="table">
+    <table class="table" id="modelsTable">
         <thead>
             <tr>
                 <th>Name</th>
@@ -60,6 +60,16 @@ else
     {
         _interceptor.MonitorEvent();
         Models = await _client.GetFromJsonAsync<List<Model>>($"{Endpoints.ModelsEndpoint}");
+    }
+    
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await js.InvokeVoidAsync("AddDataTable", "#modelsTable");
+    }
+
+    void IDisposable.Dispose()
+    {
+        js.InvokeVoidAsync("DataTableDispose", "#modelsTable");        
     }
 
     async Task Delete(int modelId)

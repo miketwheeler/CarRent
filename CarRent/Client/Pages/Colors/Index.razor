@@ -23,7 +23,7 @@
 }
 else
 {
-    <table class="table">
+    <table class="table" id="colorsTable">
         <thead>
             <tr>
                 <th>Name</th>
@@ -52,7 +52,6 @@ else
     </table>
 }
 
-
 @code {
     private List<Color> Colors;
 
@@ -60,6 +59,16 @@ else
     {
         _interceptor.MonitorEvent();
         Colors = await _client.GetFromJsonAsync<List<Color>>($"{Endpoints.ColorsEndpoint}");
+    }
+    
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await js.InvokeVoidAsync("AddDataTable", "#colorsTable");
+    }
+
+    void IDisposable.Dispose()
+    {
+        js.InvokeVoidAsync("DataTableDispose", "#colorsTable");        
     }
 
     async Task Delete(int colorId)

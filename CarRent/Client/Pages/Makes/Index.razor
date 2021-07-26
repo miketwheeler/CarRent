@@ -22,7 +22,7 @@
 }
 else
 {
-    <table class="table">
+    <table class="table" id="makesTable">
         <thead>
             <tr>
                 <th>Name</th>
@@ -59,6 +59,16 @@ else
     {
         _interceptor.MonitorEvent();
         Makes = await _client.GetFromJsonAsync<List<Make>>($"{Endpoints.MakesEndpoint}");
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await js.InvokeVoidAsync("AddDataTable", "#makesTable");
+    }
+
+    void IDisposable.Dispose()
+    {
+        js.InvokeVoidAsync("DataTableDispose", "#makesTable");        
     }
 
     async Task Delete(int makeId)
