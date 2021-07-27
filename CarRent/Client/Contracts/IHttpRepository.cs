@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CarRent.Client.Contacts
+namespace CarRent.Client.Contracts
 {
     public interface IHttpRepository<T> where T : class
     {

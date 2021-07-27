@@ -7,16 +7,12 @@ namespace CarRent.Shared.Domain
     public class Booking : BaseDomainModel, IValidatableObject
     {
         public int VehicleId { get; set; }
-
-        [Required]
         public virtual Vehicle Vehicle { get; set; }
         
         [Required]
         [DataType(DataType.Date)]
         public DateTime DateOut { get; set; }
-        
-        public DateTime? DateIn { get; set; }
-        
+        public DateTime? DateIn { get; set; }        
         public virtual Customer Customer { get; set; }
         
         [Required]
@@ -28,7 +24,7 @@ namespace CarRent.Shared.Domain
             {
                 if (DateIn <= DateOut)
                 {
-                    yield return new ValidationResult("Date In must be greater than the Date Out", new[]{ "DateIn" });
+                    yield return new ValidationResult("Date In must be greater than the Date Out", new[]{ nameof(DateIn) });
                 }
             }
         }

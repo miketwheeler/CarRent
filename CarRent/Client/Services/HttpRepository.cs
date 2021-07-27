@@ -1,13 +1,14 @@
-﻿using CarRent.Client.Contacts;
+﻿using CarRent.Client.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace CarRent.Client.Services
 {
-    public class HttpRepository<T> : IHttpRepository<T> where T : class
+    public class HttpRepository<T> : IDisposable, IHttpRepository<T> where T : class
     {
         private readonly HttpClient _client;
         private readonly HttpInterceptorService _interceptor;
@@ -16,29 +17,39 @@ namespace CarRent.Client.Services
             _client = client;
             _interceptor = interceptor;
         }
-        public Task Create(string url, T obj)
+        public async Task Create(string url, T obj)
         {
-            throw new NotImplementedException();
+            _interceptor.MonitorEvent();
+            await _client.PostAsJsonAsync(url, obj);
         }
 
-        public Task Delete(string url, int id)
+        public async Task Delete(string url, int id)
         {
-            throw new NotImplementedException();
+            _interceptor.MonitorEvent();
+            await _client.DeleteAsync($"{url}/{id}");
         }
 
-        public Task<T> Get(string url, int id)
+        public async Task<T> Get(string url, int id)
         {
-            throw new NotImplementedException();
+            _interceptor.MonitorEvent();
+            return await _client.GetFromJsonAsync<T>($"{url}/{id}");
         }
 
-        public Task<IList<T>> GetAll(string url)
+        public async Task<IList<T>> GetAll(string url)
         {
-            throw new NotImplementedException();
+            _interceptor.MonitorEvent();
+            return await _client.GetFromJsonAsync<IList<T>>($"{url}");
         }
 
-        public Task Update(string url, T obj, int id)
+        public async Task Update(string url, T obj, int id)
         {
-            throw new NotImplementedException();
+            _interceptor.MonitorEvent();
+            await _client.PutAsJsonAsync($"{url}/{id}", obj);
+        }
+
+        public void Dispose()
+        {
+            _interceptor.DisposeEvent();
         }
     }
 }

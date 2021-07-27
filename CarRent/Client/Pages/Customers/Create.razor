@@ -1,9 +1,9 @@
 ﻿@page "/customers/create/"
 
-@inject HttpClient _client
+@inject IHttpRepository<Customer> _client
 @inject NavigationManager _navManager
 @inject HttpInterceptorService _interceptor
-@implements IDisposable
+
 
 
 <h3 class="card-title">Create New Customer</h3>
@@ -17,13 +17,7 @@
 
     private async Task CreateCustomer()
     {
-        _interceptor.MonitorEvent();
-        await _client.PostAsJsonAsync(Endpoints.CustomersEndpoint, customer);
+        await _client.Create(Endpoints.CustomersEndpoint, customer);
         _navManager.NavigateTo("/customers/");
-    }
-
-    public void Dispose()
-    {
-        _interceptor.DisposeEvent();
     }
 }

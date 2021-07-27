@@ -1,3 +1,4 @@
+using CarRent.Client.Contracts;
 using CarRent.Client.Services;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -32,6 +33,8 @@ namespace CarRent.Client
             builder.Services.AddHttpClientInterceptor();
 
             builder.Services.AddScoped<HttpInterceptorService>();
+
+            builder.Services.AddTransient(typeof(IHttpRepository<>), typeof(HttpRepository<>));
 
             builder.Services.AddApiAuthorization();
 

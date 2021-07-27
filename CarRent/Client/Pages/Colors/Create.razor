@@ -1,9 +1,8 @@
 ﻿@page "/colors/create/"
 
-@inject HttpClient _client
+@inject IHttpRepository<Color> _client
 @inject NavigationManager _navManager
-@implements IDisposable
-@inject HttpInterceptorService _interceptor
+
 
 
 <h3 class="card-title">Create New Color</h3>
@@ -17,13 +16,7 @@
     
     private async Task CreateColor()
     {
-        _interceptor.MonitorEvent();
-        await _client.PostAsJsonAsync(Endpoints.ColorsEndpoint, color);
+        await _client.Create(Endpoints.ColorsEndpoint, color);
         _navManager.NavigateTo("/colors/");
-    }
-
-    public void Dispose()
-    {
-        _interceptor.DisposeEvent();
     }
 }
